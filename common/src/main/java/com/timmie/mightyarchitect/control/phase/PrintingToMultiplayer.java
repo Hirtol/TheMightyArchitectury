@@ -3,11 +3,12 @@ package com.timmie.mightyarchitect.control.phase;
 import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.timmie.mightyarchitect.control.ArchitectManager;
-import com.timmie.mightyarchitect.control.TemplateBlockAccess;
+import java.util.Comparator;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Vec3i;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.CollisionContext;
@@ -36,8 +37,8 @@ public class PrintingToMultiplayer extends PhaseBase {
 		Minecraft.getInstance().player.commandUnsigned("gamerule sendCommandFeedback false");
 		Minecraft.getInstance().player.commandUnsigned("gamerule logAdminCommands false");
 
-		remaining = new LinkedList<>(((TemplateBlockAccess) getModel().getMaterializedSketch()).getAllPositions());
-		remaining.sort((o1, o2) -> Integer.compare(o1.getY(), o2.getY()));
+		remaining = new LinkedList<>((getModel().getMaterializedSketch()).getAllPositions());
+		remaining.sort(Comparator.comparingInt(Vec3i::getY));
 	}
 
 	@Override
